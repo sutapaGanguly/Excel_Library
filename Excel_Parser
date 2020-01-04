@@ -1,0 +1,99 @@
+public class Excel_Parser
+{
+public	static ArrayList<Integer> str=new ArrayList<Integer>();
+   public static int excelgetcountofrow(String Path,String Sheet)
+   {
+	   int row = 0;
+	   try
+	   {
+		   FileInputStream file=new FileInputStream(new File(Path));
+		   
+		   //get the workbook instance for XLSX File
+		   XSSFWorkbook workbook=new XSSFWorkbook(file);
+		   
+		   //Get first sheet from the workbook
+		   XSSFSheet sheet=workbook.getSheet(Sheet);
+		   
+		    row=sheet.getLastRowNum();
+		  
+	   }
+	   catch(Exception e)
+	   {
+		 System.out.print("Exception caught while finding row number");  
+	   }
+	   return row;   
+   }
+   public static ArrayList<Integer> excelRreader(String Path,String Sheet,int rownumber)
+   {  
+	   ArrayList<Integer> col=new ArrayList<Integer>();
+	   
+	   try
+	   {
+		   FileInputStream file=new FileInputStream(new File(Path));
+		   
+		   //get the workbook instance for XLSX File
+		   XSSFWorkbook workbook=new XSSFWorkbook(file);
+		   
+		   //Get first sheet from the workbook
+		   XSSFSheet sheet=workbook.getSheet(Sheet);
+		   
+		   //Iterator through each rows from first sheet 
+		 //  Iterator<Row> rowIterator =sheet.iterator();
+		   
+		 //For each row, iterate through each columns
+          
+         //  while(rowIterator.hasNext()) {
+             //  Row row = rowIterator.next();
+		   Row row=sheet.getRow(rownumber);
+             //For each row, iterate through each columns
+		  
+               Iterator<Cell> cellIterator = row.cellIterator();
+               while(cellIterator.hasNext())
+               {
+    
+                   //Getting the cell contents
+                   Cell cell =cellIterator.next();
+    
+                 
+                   //add the values of the cell to the Array-list 
+                  
+                   col.add((int) cell.getNumericCellValue());
+                  
+               }
+               
+           
+          
+          // System.out.println("");
+	  
+	   
+       file.close();
+	   
+       //print the value of the cells which is stored in the the Array-list
+      // System.out.println("");
+       for (int i = 0; i < col.size(); i++){
+              double item = (double) col.get(i);
+              System.out.println("Index " + i + " : " + item);
+           }
+
+       } catch (FileNotFoundException e) {
+           e.printStackTrace();
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
+	   str=col;
+	   return  col;
+
+   
+}
+  
+   public static List retrieveValuesFromListMethod2(List col)
+   {
+       //Retrieving values from list
+       int size = col.size();
+       for(int i=0;i<size;i++)
+       {
+           System.out.println(col.get(i));
+       }
+       return col;
+   }
+  }
